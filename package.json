@@ -1,0 +1,14 @@
+{
+  "name": "olcar-utility",
+  "private": true,
+  "dependencies": {
+    "autolinker": "^4.0.0",
+    "dayjs": "^1.11.10",
+    "query-string": "^9.0.0",
+    "@types/google-libphonenumber": "^7.4.24",
+    "google-libphonenumber": "^3.2.33"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
