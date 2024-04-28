@@ -1,12 +1,4 @@
-import { Autolinker, type Match } from "autolinker";
-import dayjs from "dayjs";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
-
-// @note タイムゾーン設定
-dayjs.extend(timezone);
-dayjs.extend(utc);
-dayjs.tz.setDefault("Asia/Tokyo");
+import { Autolinker, type Match } from 'autolinker'
 
 /**
  * 文字列をフォーマットするユーティリティ
@@ -21,10 +13,10 @@ export const formatUtil = {
    */
   toMileage: (value: number | string | null, fixed: number = 1) => {
     if (!value) {
-      return "-";
+      return '-'
     }
 
-    return `${parseFloat((+value / 10000).toString()).toFixed(fixed)}万km`;
+    return `${parseFloat((+value / 10000).toString()).toFixed(fixed)}万km`
   },
 
   /**
@@ -35,10 +27,10 @@ export const formatUtil = {
    */
   toJoinString: (...value: string[]) => {
     if (!value.length) {
-      return "-";
+      return '-'
     }
 
-    return value.map((v) => v || "").join("");
+    return value.map((v) => v || '').join('')
   },
 
   /**
@@ -48,15 +40,12 @@ export const formatUtil = {
    * @param unknownVehicleInspection 車検有無
    * @returns
    */
-  toLocaleVehicleInspection: (
-    value: string | null,
-    unknownVehicleInspection: boolean
-  ) => {
+  toLocaleVehicleInspection: (value: string | null, unknownVehicleInspection: boolean) => {
     if (value) {
-      return dayjs(value).format("YYYY年M月");
+      return dayjsUtil.dayjs(value).format('YYYY年M月')
     }
 
-    return unknownVehicleInspection ? "あり" : "-";
+    return unknownVehicleInspection ? 'あり' : '-'
   },
 
   /**
@@ -67,10 +56,10 @@ export const formatUtil = {
    */
   toDate: (value: string | null) => {
     if (!value) {
-      return value;
+      return value
     }
 
-    return dayjs(value).format("YYYY-MM-DD");
+    return dayjsUtil.dayjs(value).format('YYYY-MM-DD')
   },
 
   /**
@@ -82,17 +71,18 @@ export const formatUtil = {
    */
   toFirstDate: (year?: number, month?: number) => {
     if (!year || !month) {
-      return "";
+      return ''
     }
 
-    return dayjs()
+    return dayjsUtil
+      .dayjs()
       .year(year)
       .month(month - 1)
       .date(1)
       .hour(9)
       .minute(0)
       .second(0)
-      .toISOString();
+      .toISOString()
   },
 
   /**
@@ -103,10 +93,10 @@ export const formatUtil = {
    */
   toLocaleDateString: (value: string | null) => {
     if (!value) {
-      return value;
+      return value
     }
 
-    return dayjs.utc(value).local().format("YYYY年MM月DD日");
+    return dayjsUtil.dayjs.utc(value).local().format('YYYY年MM月DD日')
   },
 
   /**
@@ -126,17 +116,17 @@ export const formatUtil = {
   getUrls: (value: string): string[] => {
     const matches = Autolinker.parse(value, {
       urls: true,
-    });
+    })
 
     // eslint-disable-next-line require-jsdoc
     const getUrls = (matche: Match) =>
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      typeof (matche as any).getUrl === "function"
+      typeof (matche as any).getUrl === 'function'
         ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (matche as any).getUrl()
-        : "";
+        : ''
 
-    return matches.map((v) => getUrls(v)).filter((v) => v !== "");
+    return matches.map((v) => getUrls(v)).filter((v) => v !== '')
   },
 
   /**
@@ -147,8 +137,7 @@ export const formatUtil = {
    * @returns
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  toOffset: (current: any, limit: number) =>
-    current! ? (current - 1) * limit : 0,
+  toOffset: (current: any, limit: number) => (current! ? (current - 1) * limit : 0),
 
   /**
    * 和暦からISO8601形式で日付を取得する
@@ -156,13 +145,11 @@ export const formatUtil = {
    * @params wareki 和暦
    */
   toIso8601: (wareki: string) => {
-    let vehicleInspection = dayjs("");
+    let vehicleInspection = dayjsUtil.dayjs('')
     if (wareki) {
-      vehicleInspection = dayjs(wareki.replace("年", "-").replace("月", ""));
+      vehicleInspection = dayjsUtil.dayjs(wareki.replace('年', '-').replace('月', ''))
     }
-    return vehicleInspection.isValid()
-      ? vehicleInspection.format("YYYY-MM-01")
-      : "";
+    return vehicleInspection.isValid() ? vehicleInspection.format('YYYY-MM-01') : ''
   },
 
   /**
@@ -173,10 +160,10 @@ export const formatUtil = {
    * @returns
    */
   toTenThousand: (value: number | string | null, fixed: number = 1) => {
-    if (!value && typeof value !== "number") {
-      return "";
+    if (!value && typeof value !== 'number') {
+      return ''
     }
 
-    return parseFloat((+value / 10000).toString()).toFixed(fixed);
+    return parseFloat((+value / 10000).toString()).toFixed(fixed)
   },
-};
+}

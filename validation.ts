@@ -28,7 +28,8 @@ export const validationUtil = {
    * @param message
    * @returns
    */
-  min: (value: number, max: number, message: string = '以上にしてください') => value >= max || `${max}${message}`,
+  min: (value: number, max: number, message: string = '以上にしてください') =>
+    value >= max || `${max}${message}`,
   /**
    * 以内にしてください
    *
@@ -37,7 +38,8 @@ export const validationUtil = {
    * @param message
    * @returns
    */
-  max: (value: number, max: number, message: string = '以内にしてください') => value <= max || `${max}${message}`,
+  max: (value: number, max: number, message: string = '以内にしてください') =>
+    value <= max || `${max}${message}`,
   /**
    * 正しいURLを入力してください
    *
@@ -62,7 +64,8 @@ export const validationUtil = {
    * @param max
    * @returns
    */
-  maxLength: (value: string, message: string = '文字以内にしてください', max: number) => value.length <= max || `${max}${message}`,
+  maxLength: (value: string, message: string = '文字以内にしてください', max: number) =>
+    value.length <= max || `${max}${message}`,
   /**
    * 正しいメールアドレスを入力してください
    *
