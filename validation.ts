@@ -105,4 +105,34 @@ export const validationUtil = {
       return message
     }
   },
+  /**
+   * <input type="file">の空チェック
+   *
+   * @param value
+   * @param message
+   * @returns
+   */
+  requiredFile: (value: File[], message: string = '必須入力です') => !!value.length || message,
+  /**
+   * <input type="file">のファイルサイズチェック
+   *
+   * @param value
+   * @param message
+   * @returns
+   */
+  maxFileSize: (
+    value: File[],
+    maxSize: number = 10000000,
+    message: string = '{0}は{1}以内の画像ファイルを入力してください',
+  ) => {
+    const overSizeFiles = value.filter((v) => v.size >= maxSize).map((v) => v)
+    if (overSizeFiles.length === 0) {
+      return true
+    }
+    return formatUtil.replace(
+      message,
+      overSizeFiles.map((v) => v.name).join(),
+      formatUtil.toByte(maxSize),
+    )
+  },
 }

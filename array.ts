@@ -3,7 +3,7 @@
  */
 export const arrayUtil = {
   /**
-   * pushに機能を追加したやつ
+   * Refに対するpushに機能を追加したやつ
    *
    * @param targetArray push対象のArray
    * @param items pushするArray
@@ -12,18 +12,20 @@ export const arrayUtil = {
    *  maxLength: Arrayに追加できる最大数
    */
   push: <T>(
-    targetArray: T[],
+    targetArray: Ref<T[]> | T[],
     items: T[],
     options?: { allowDuplicate?: boolean; maxLength?: number },
   ) => {
-    targetArray.push(...items)
+    let target = 'value' in targetArray ? targetArray.value : targetArray
 
-    if (options?.allowDuplicate) {
-      targetArray = [...new Set(targetArray)]
+    target.push(...items)
+
+    if (!options?.allowDuplicate) {
+      target = [...new Set(target)]
     }
 
     if (options?.maxLength) {
-      targetArray.splice(options.maxLength, targetArray.length - options.maxLength)
+      target.splice(options.maxLength, target.length - options.maxLength)
     }
   },
   /**
@@ -31,8 +33,40 @@ export const arrayUtil = {
    *
    * @param items
    */
-  splice: <T>(targetArray: T[], item: T) => {
-    const index = targetArray.indexOf(item)
-    targetArray.splice(index, 1)
+  splice: <T>(targetArray: Ref<T[]>, item: T) => {
+    const index = targetArray.value.indexOf(item)
+    targetArray.value.splice(index, 1)
+  },
+  /**
+   * Fileに対するpushに機能を追加したやつ
+   *
+   * @param targetFiles
+   * @param items
+   * @param options
+   */
+  pushFile: (
+    targetArray: Ref<File[]>,
+    items: File[],
+    options?: { allowDuplicate?: boolean; maxLength?: number },
+  ) => {
+    targetArray.value.push(...items)
+
+    if (!options?.allowDuplicate) {
+      targetArray.value = targetArray.value.filter(
+        (element, index, self) =>
+          self.findIndex(
+            (e) =>
+              e.name === element.name &&
+              e.size === element.size &&
+              e.lastModified === element.lastModified &&
+              e.type === element.type &&
+              e.arrayBuffer === element.arrayBuffer,
+          ) === index,
+      )
+    }
+
+    if (options?.maxLength) {
+      targetArray.value.splice(options?.maxLength, targetArray.value.length - options.maxLength)
+    }
   },
 }

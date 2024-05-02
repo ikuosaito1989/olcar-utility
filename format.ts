@@ -5,6 +5,22 @@ import { Autolinker, type Match } from 'autolinker'
  */
 export const formatUtil = {
   /**
+   * プレースホルダを置き換える
+   *
+   * @example
+   * formatUtil.replace('{0}は{1}である', '吾輩', '猫') // 吾輩は猫である
+   * @param value
+   * @param args
+   * @returns
+   */
+  replace: (value: string, ...args: unknown[]) => {
+    for (const [i, arg] of args.entries()) {
+      const regExp = new RegExp(`\\{${i}\\}`, 'g')
+      value = value.replace(regExp, arg as string)
+    }
+    return value
+  },
+  /**
    * 固定小数点表記+万km
    *
    * @param value
@@ -165,5 +181,33 @@ export const formatUtil = {
     }
 
     return parseFloat((+value / 10000).toString()).toFixed(fixed)
+  },
+  /**
+   * バイト数から単位を返却する
+   *
+   * @param value
+   * @returns
+   */
+  toByte: (value: number) => {
+    const kb = 1000
+    const mb = Math.pow(kb, 2)
+    const gb = Math.pow(kb, 3)
+    const tb = Math.pow(kb, 4)
+
+    let unit: { target: number | null; unit: string } = { target: null, unit: 'byte' }
+
+    if (value >= tb) {
+      unit = { target: tb, unit: 'TB' }
+    } else if (value >= gb) {
+      unit = { target: gb, unit: 'GB' }
+    } else if (value >= mb) {
+      unit = { target: mb, unit: 'MB' }
+    } else if (value >= kb) {
+      unit = { target: kb, unit: 'KB' }
+    }
+
+    const d = Math.pow(10, 0)
+    const newSize = unit.target !== null ? Math.floor((value / unit.target) * d) / d : value
+    return `${newSize}${unit.unit}`
   },
 }
