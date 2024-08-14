@@ -4,7 +4,7 @@
  * @params url URL文字列
  * @params opts オプション
  */
-export const useFetchi = async <T>(url: string, opts?: any) => {
+export const useFetchi = async <T>(url: string, opts?: object) => {
   const nuxtApp = useNuxtApp()
 
   const result = await useFetch<T>(url, {
