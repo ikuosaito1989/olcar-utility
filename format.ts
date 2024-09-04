@@ -1,4 +1,5 @@
 import { Autolinker, type Match } from 'autolinker'
+import dayjs from '~/lib/day'
 
 /**
  * 文字列をフォーマットするユーティリティ
@@ -156,17 +157,11 @@ export const formatUtil = {
   toOffset: (current: any, limit: number) => (current! ? (current - 1) * limit : 0),
 
   /**
-   * 和暦からISO8601形式で日付を取得する
+   * ISO8601形式で日付を取得する
    *
-   * @params wareki 和暦
+   * @params date 日付
    */
-  toIso8601: (wareki: string) => {
-    let vehicleInspection = dayjsUtil.dayjs('')
-    if (wareki) {
-      vehicleInspection = dayjsUtil.dayjs(wareki.replace('年', '-').replace('月', ''))
-    }
-    return vehicleInspection.isValid() ? vehicleInspection.format('YYYY-MM-01') : ''
-  },
+  toIso8601: (date: string | null) => (date ? dayjs(date).format(Constants.ISO8601_FORMAT) : date),
 
   /**
    * 1万区切りにする
