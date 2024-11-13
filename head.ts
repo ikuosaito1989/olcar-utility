@@ -12,7 +12,7 @@ export const headUtil = {
   seo(
     title: string = '格安な中古車、車の個人売買なら【olcar（オルカー）】',
     description: string = '格安な中古車、車の個人売買を集めた中古車情報サイト、olcar（オルカー）です。個人売買を中心とした中古車情報を集め、従来の中古車情報サイトの価格より安い値段の車が勢揃いしています！',
-    image: string = 'https://ol-car.com/ogp.jpg',
+    image: string = 'https://ol-car.com/ogp.webp',
     type: string = 'website',
     twitterCard: string = 'summary',
     isNoIndex: boolean = false,
