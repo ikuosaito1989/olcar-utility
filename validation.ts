@@ -51,7 +51,7 @@ export const validationUtil = {
     try {
       // eslint-disable-next-line no-new
       new URL(value)
-    } catch (_) {
+    } catch {
       return message
     }
     return true
