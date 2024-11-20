@@ -11,7 +11,7 @@ export const validationUtil = {
    * @param message
    * @returns
    */
-  required: (value: string, message: string = '必須入力です') => !!value || message,
+  required: (value: string, message: string) => !!value || message,
   /**
    * 数値を指定してください
    *
@@ -19,7 +19,7 @@ export const validationUtil = {
    * @param message
    * @returns
    */
-  numeric: (value: string, message: string = '数値を指定してください') => !isNaN(+value) || message,
+  numeric: (value: string, message: string) => !isNaN(+value) || message,
   /**
    * 以上にしてください
    *
@@ -28,8 +28,8 @@ export const validationUtil = {
    * @param message
    * @returns
    */
-  min: (value: number, max: number, message: string = '以上にしてください') =>
-    value >= max || `${max}${message}`,
+  min: (value: number, max: number, message: string) =>
+    value >= max || formatUtil.replace(message, max),
   /**
    * 以内にしてください
    *
@@ -38,8 +38,8 @@ export const validationUtil = {
    * @param message
    * @returns
    */
-  max: (value: number, max: number, message: string = '以内にしてください') =>
-    value <= max || `${max}${message}`,
+  max: (value: number, max: number, message: string) =>
+    value <= max || formatUtil.replace(message, max),
   /**
    * 正しいURLを入力してください
    *
@@ -47,7 +47,7 @@ export const validationUtil = {
    * @param message
    * @returns
    */
-  url: (value: string, message: string = '正しいURLを入力してください') => {
+  url: (value: string, message: string) => {
     try {
       // eslint-disable-next-line no-new
       new URL(value)
@@ -64,8 +64,8 @@ export const validationUtil = {
    * @param max
    * @returns
    */
-  maxLength: (value: string, message: string = '文字以内にしてください', max: number) =>
-    value.length <= max || `${max}${message}`,
+  maxLength: (value: string, message: string, max: number) =>
+    value.length <= max || formatUtil.replace(message, max),
   /**
    * 正しいメールアドレスを入力してください
    *
@@ -73,7 +73,7 @@ export const validationUtil = {
    * @param message
    * @returns
    */
-  email: (value: string, message: string = '正しいメールアドレスを入力してください') => {
+  email: (value: string, message: string) => {
     const result = String(value)
       .toLowerCase()
       .match(
@@ -88,7 +88,7 @@ export const validationUtil = {
    * @param message
    * @returns
    */
-  phone: (value: string, message: string = '正しい電話番号を入力してください') => {
+  phone: (value: string, message: string) => {
     if (!value) {
       return true
     }
@@ -112,7 +112,7 @@ export const validationUtil = {
    * @param message
    * @returns
    */
-  requiredFile: (value: File[], message: string = '必須入力です') => !!value.length || message,
+  requiredFile: (value: File[], message: string) => !!value.length || message,
   /**
    * <input type="file">のファイルサイズチェック
    *
@@ -120,11 +120,7 @@ export const validationUtil = {
    * @param message
    * @returns
    */
-  maxFileSize: (
-    value: File[],
-    maxSize: number = 10000000,
-    message: string = '{0}は{1}以内の画像ファイルを入力してください',
-  ) => {
+  maxFileSize: (value: File[], maxSize: number = 10000000, message: string) => {
     const overSizeFiles = value.filter((v) => v.size >= maxSize).map((v) => v)
     if (overSizeFiles.length === 0) {
       return true
