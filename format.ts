@@ -28,12 +28,12 @@ export const formatUtil = {
    * @param fixed 桁の数
    * @returns
    */
-  toMileage: (value: number | string | null, fixed: number = 1) => {
+  toMileage: (value: number | string | null, fixed: number = 1, notation: string) => {
     if (!value) {
       return '-'
     }
 
-    return `${parseFloat((+value / 10000).toString()).toFixed(fixed)}万km`
+    return `${parseFloat((+value / 10000).toString()).toFixed(fixed)}${notation}`
   },
 
   /**
@@ -57,12 +57,17 @@ export const formatUtil = {
    * @param unknownVehicleInspection 車検有無
    * @returns
    */
-  toLocaleVehicleInspection: (value: string | null, unknownVehicleInspection: boolean) => {
+  toLocaleVehicleInspection: (
+    value: string | null,
+    unknownVehicleInspection: boolean,
+    format: string,
+    validNotation: string,
+  ) => {
     if (value) {
-      return dayjsUtil.dayjs(value).format('YYYY年M月')
+      return dayjsUtil.dayjs(value).format(format)
     }
 
-    return unknownVehicleInspection ? 'あり' : '-'
+    return unknownVehicleInspection ? validNotation : '-'
   },
 
   /**
@@ -108,12 +113,12 @@ export const formatUtil = {
    * @param value
    * @returns
    */
-  toLocaleDateString: (value: string | null) => {
+  toLocaleDateString: (value: string | null, format: string) => {
     if (!value) {
       return value
     }
 
-    return dayjsUtil.dayjs.utc(value).local().format('YYYY年MM月DD日')
+    return dayjsUtil.dayjs.utc(value).local().format(format)
   },
 
   /**
