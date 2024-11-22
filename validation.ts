@@ -1,5 +1,3 @@
-import { PhoneNumber, PhoneNumberUtil } from 'google-libphonenumber'
-
 /**
  * Vuetifyのバリデーションに関するユーティリティ
  */
@@ -80,30 +78,6 @@ export const validationUtil = {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       )
     return !!result || message
-  },
-  /**
-   * 正しい電話番号を入力してください
-   *
-   * @param value
-   * @param message
-   * @returns
-   */
-  phone: (value: string, message: string) => {
-    if (!value) {
-      return true
-    }
-
-    try {
-      const util = PhoneNumberUtil.getInstance()
-      const region = 'JP'
-      const number: PhoneNumber = util.parseAndKeepRawInput(value, region)
-      if (!util.isValidNumberForRegion(number, region)) {
-        return message
-      }
-      return true
-    } catch {
-      return message
-    }
   },
   /**
    * <input type="file">の空チェック
